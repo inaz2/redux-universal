@@ -12,10 +12,15 @@ import webpackConfig from '../webpack.config'
 import React from 'react'
 import { renderToString } from 'react-dom/server'
 import { Provider } from 'react-redux'
+import injectTapEventPlugin from 'react-tap-event-plugin';
 
 import configureStore from '../common/store/configureStore'
-import App from '../common/containers/App'
+import App from '../common/components/App'
 import { fetchCounter } from '../common/api/counter'
+
+// Needed for onTouchTap
+// http://stackoverflow.com/a/34015469/988941
+injectTapEventPlugin();
 
 const app = new Express()
 const port = 3000
@@ -61,12 +66,32 @@ function renderFullPage(html, preloadedState) {
     <!doctype html>
     <html>
       <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <title>Redux Universal Example</title>
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1, user-scalable=0, maximum-scale=1, minimum-scale=1"
+        >
       </head>
       <body>
         <div id="app">${html}</div>
         <script>
           window.__PRELOADED_STATE__ = ${JSON.stringify(preloadedState).replace(/</g, '\\x3c')}
+        </script>
+        <!-- This script adds the Roboto font to our project. For more detail go to this site:  http://www.google.com/fonts#UsePlace:use/Collection:Roboto:400,300,500 -->
+        <script>
+          var WebFontConfig = {
+            google: { families: [ 'Roboto:400,300,500:latin' ] }
+          };
+          (function() {
+            var wf = document.createElement('script');
+            wf.src = 'https://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js';
+            wf.type = 'text/javascript';
+            wf.async = 'true';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(wf, s);
+          })();
         </script>
         <script src="/static/bundle.js"></script>
       </body>

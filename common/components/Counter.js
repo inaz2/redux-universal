@@ -1,20 +1,25 @@
 import React, { Component, PropTypes } from 'react'
+import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
+import FlatButton from 'material-ui/FlatButton';
 
 class Counter extends Component {
   render() {
     const { increment, incrementIfOdd, incrementAsync, decrement, counter } = this.props
     return (
-      <p>
-        Clicked: {counter} times
-        {' '}
-        <button onClick={increment}>+</button>
-        {' '}
-        <button onClick={decrement}>-</button>
-        {' '}
-        <button onClick={incrementIfOdd}>Increment if odd</button>
-        {' '}
-        <button onClick={() => incrementAsync()}>Increment async</button>
-      </p>
+      <Card>
+        <CardHeader
+          title="Counter"
+        />
+        <CardText>
+          Clicked: {counter} times
+        </CardText>
+        <CardActions>
+          <FlatButton label="+" onClick={increment} />
+          <FlatButton label="-" onClick={decrement} />
+          <FlatButton label="Increment if odd" onClick={incrementIfOdd} />
+          <FlatButton label="Increment async" onClick={() => incrementAsync()} />
+        </CardActions>
+      </Card>
     )
   }
 }
